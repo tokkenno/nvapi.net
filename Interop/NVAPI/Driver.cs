@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Nvidia.Interop
 {
-    public partial class Nvapi
+    public static partial class Nvapi
     {
         #region Function IDs
         #endregion

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Nvidia.Interop
 {
-    public partial class Nvapi
+    public static partial class Nvapi
     {
         #region Defines
         [StructLayout(LayoutKind.Sequential)]
@@ -30,16 +30,16 @@ namespace Nvidia.Interop
         #endregion
 
         #region Function IDs
-        protected const uint NvId_EnumNvidiaDisplayHandle = 0x9ABDD40D;
-        protected const uint NvId_EnumNvidiaUnAttachedDisplayHandle = 0x20DE9260;
-        protected const uint NvId_GetAssociatedNvidiaDisplayHandle = 0x35C29134;
-        protected const uint NvId_GetAssociatedUnAttachedNvidiaDisplayHandle = 0xA70503B2;
+        private const uint NvId_EnumNvidiaDisplayHandle = 0x9ABDD40D;
+        private const uint NvId_EnumNvidiaUnAttachedDisplayHandle = 0x20DE9260;
+        private const uint NvId_GetAssociatedNvidiaDisplayHandle = 0x35C29134;
+        private const uint NvId_GetAssociatedUnAttachedNvidiaDisplayHandle = 0xA70503B2;
         #endregion
 
         #region Display NVAPI Functions
         // EnumNvidiaDisplayHandle
-        protected delegate Status EnumNvidiaDisplayHandleDelegate(int thisEnum, ref DisplayHandle displayHandle);
-        protected static readonly EnumNvidiaDisplayHandleDelegate EnumNvidiaDisplayHandleInternal;
+        private delegate Status EnumNvidiaDisplayHandleDelegate(int thisEnum, ref DisplayHandle displayHandle);
+        private static readonly EnumNvidiaDisplayHandleDelegate EnumNvidiaDisplayHandleInternal;
 
         /// <summary>
         /// This function returns the handle of the NVIDIA display specified by the enum index (thisEnum). The client should keep enumerating until it returns NVAPI_END_ENUMERATION.
@@ -57,8 +57,8 @@ namespace Nvidia.Interop
         }
 
         // EnumNvidiaUnAttachedDisplayHandle
-        protected delegate Status EnumNvidiaUnAttachedDisplayHandleDelegate(int thisEnum, ref UnAttachedDisplayHandle pNvDispHandle);
-        protected static readonly EnumNvidiaUnAttachedDisplayHandleDelegate EnumNvidiaUnAttachedDisplayHandleInternal;
+        private delegate Status EnumNvidiaUnAttachedDisplayHandleDelegate(int thisEnum, ref UnAttachedDisplayHandle pNvDispHandle);
+        private static readonly EnumNvidiaUnAttachedDisplayHandleDelegate EnumNvidiaUnAttachedDisplayHandleInternal;
 
         /// <summary>
         /// This function returns the handle of the NVIDIA unattached display specified by the enum index (thisEnum). The client should keep enumerating until it returns error. Note: Display handles can get invalidated on a modeset, so the calling applications need to renum the handles after every modeset.
@@ -75,8 +75,8 @@ namespace Nvidia.Interop
         }
 
         // GetAssociatedUnAttachedNvidiaDisplayHandle
-        protected delegate Status GetAssociatedNvidiaDisplayHandleDelegate(StringBuilder szDisplayName, ref DisplayHandle pNvDispHandle);
-        protected static readonly GetAssociatedNvidiaDisplayHandleDelegate GetAssociatedNvidiaDisplayHandleInternal;
+        private delegate Status GetAssociatedNvidiaDisplayHandleDelegate(StringBuilder szDisplayName, ref DisplayHandle pNvDispHandle);
+        private static readonly GetAssociatedNvidiaDisplayHandleDelegate GetAssociatedNvidiaDisplayHandleInternal;
 
         /// <summary>
         /// This function returns the handle of the NVIDIA display that is associated with the given display "name" (such as "\\.\DISPLAY1").
@@ -97,8 +97,8 @@ namespace Nvidia.Interop
         }
 
         // GetAssociatedUnAttachedNvidiaDisplayHandle
-        protected delegate Status GetAssociatedUnAttachedNvidiaDisplayHandleDelegate(StringBuilder szDisplayName, ref UnAttachedDisplayHandle pNvUnAttachedDispHandle);
-        protected static readonly GetAssociatedUnAttachedNvidiaDisplayHandleDelegate GetAssociatedUnAttachedNvidiaDisplayHandleInternal;
+        private delegate Status GetAssociatedUnAttachedNvidiaDisplayHandleDelegate(StringBuilder szDisplayName, ref UnAttachedDisplayHandle pNvUnAttachedDispHandle);
+        private static readonly GetAssociatedUnAttachedNvidiaDisplayHandleDelegate GetAssociatedUnAttachedNvidiaDisplayHandleInternal;
 
         /// <summary>
         /// This function returns the handle of an unattached NVIDIA display that is associated with the given display name (such as "\\DISPLAY1").

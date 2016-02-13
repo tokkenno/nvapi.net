@@ -6,58 +6,58 @@ using System.Text;
 
 namespace Nvidia.Interop
 {
-    public partial class Nvapi
+    public static partial class Nvapi
     {
         #region Defines
-        protected const uint NvMaxHeads = 4;
-        protected const uint NvMaxVidProfiles = 4;
-        protected const uint NvMaxVidStreams = 4;
-        protected const uint NvAdvancedDisplayHeads = 4;
-        protected const uint NvGenericStringMax = 4096;
-        protected const uint NvLongStringMax = 256;
-        protected const uint NvMaxAcpiIds = 16;
-        protected const uint NvMaxAudioDevices = 16;
-        protected const uint NvMaxAvailableCPUTopologies = 256;
-        protected const uint NvMaxAvailableSLIGroups = 256;
-        protected const uint NvMaxDisplayHeads = 2;
-        protected const uint NvMaxDisplays = NvPhysicalGPUs * NvAdvancedDisplayHeads;
-        protected const uint NvMaxGPUPerTopology = 8;
-        protected const uint NvMaxGPUTopologies = NvMaxPhysicalGPUs;
-        protected const uint NvMaxHeadsPerGPU = 32;
-        protected const uint NvMaxLogicalGPUs = 64;
-        protected const uint NvMaxPhysicalBridges = 100;
+        public const uint NvMaxHeads = 4;
+        public const uint NvMaxVidProfiles = 4;
+        public const uint NvMaxVidStreams = 4;
+        public const uint NvAdvancedDisplayHeads = 4;
+        public const uint NvGenericStringMax = 4096;
+        public const uint NvLongStringMax = 256;
+        public const uint NvMaxAcpiIds = 16;
+        public const uint NvMaxAudioDevices = 16;
+        public const uint NvMaxAvailableCPUTopologies = 256;
+        public const uint NvMaxAvailableSLIGroups = 256;
+        public const uint NvMaxDisplayHeads = 2;
+        public const uint NvMaxDisplays = NvPhysicalGPUs * NvAdvancedDisplayHeads;
+        public const uint NvMaxGPUPerTopology = 8;
+        public const uint NvMaxGPUTopologies = NvMaxPhysicalGPUs;
+        public const uint NvMaxHeadsPerGPU = 32;
+        public const uint NvMaxLogicalGPUs = 64;
+        public const uint NvMaxPhysicalBridges = 100;
         public const uint NvMaxPhysicalGPUs = 64;
-        protected const uint NvMaxViewModes = 8;
-        protected const uint NvPhysicalGPUs = 32;
-        protected const uint NvShortStringMax = 64;
-        protected const uint NvSystemHWBCInvalidId = 0xffffffff;
-        protected const uint NvSystemMaxDisplays = NvMaxPhysicalGPUs * NvMaxHeads;
-        protected const uint NvSystemMaxHWBCs = 128;
+        public const uint NvMaxViewModes = 8;
+        public const uint NvPhysicalGPUs = 32;
+        public const uint NvShortStringMax = 64;
+        public const uint NvSystemHWBCInvalidId = 0xffffffff;
+        public const uint NvSystemMaxDisplays = NvMaxPhysicalGPUs * NvMaxHeads;
+        public const uint NvSystemMaxHWBCs = 128;
         #endregion
 
         #region Function IDs
-        protected const uint NvId_Initialize                = 0x0150E828;
-        protected const uint NvId_Unload                    = 0xD22BDD7E;
-        protected const uint NvId_GetErrorMessage           = 0x6C2D048C;
-        protected const uint NvId_GetInterfaceVersionString = 0x01053FA5;
+        private const uint NvId_Initialize                = 0x0150E828;
+        private const uint NvId_Unload                    = 0xD22BDD7E;
+        private const uint NvId_GetErrorMessage           = 0x6C2D048C;
+        private const uint NvId_GetInterfaceVersionString = 0x01053FA5;
         #endregion
 
         #region General NVAPI Functions
         // QueryInterface
-        protected delegate IntPtr QueryInterfaceDelegate(uint id);
-        protected static readonly QueryInterfaceDelegate QueryInterface;
+        private delegate IntPtr QueryInterfaceDelegate(uint id);
+        private static readonly QueryInterfaceDelegate QueryInterface;
 
         // Initialize
-        protected delegate Status InitializeDelegate();
-        protected static readonly InitializeDelegate InitializeInternal;
+        private delegate Status InitializeDelegate();
+        private static readonly InitializeDelegate InitializeInternal;
 
         // Unload
-        protected delegate Status UnloadDelegate();
-        protected static readonly UnloadDelegate UnloadInternal;
+        private delegate Status UnloadDelegate();
+        private static readonly UnloadDelegate UnloadInternal;
 
         // GetErrorMessage
-        protected delegate Status GetErrorMessageDelegate(Status nr, StringBuilder szDesc);
-        protected static readonly GetErrorMessageDelegate GetErrorMessageInternal;
+        private delegate Status GetErrorMessageDelegate(Status nr, StringBuilder szDesc);
+        private static readonly GetErrorMessageDelegate GetErrorMessageInternal;
 
         /// <summary>
         /// This function converts an NvAPI error code into a null terminated string.
@@ -78,8 +78,8 @@ namespace Nvidia.Interop
         }
 
         // GetInterfaceVersionString
-        protected delegate Status GetInterfaceVersionStringDelegate(StringBuilder szDesc);
-        protected static readonly GetInterfaceVersionStringDelegate GetInterfaceVersionStringInternal;
+        private delegate Status GetInterfaceVersionStringDelegate(StringBuilder szDesc);
+        private static readonly GetInterfaceVersionStringDelegate GetInterfaceVersionStringInternal;
 
         /// <summary>
         /// This function returns a string describing the version of the NvAPI library. The contents of the string are human readable. Do not assume a fixed format.
@@ -100,9 +100,9 @@ namespace Nvidia.Interop
         #endregion
 
         #region Initialization code
-        protected static bool available = false;
+        private static bool available = false;
 
-        public bool IsAvailable() { return Nvapi.available; }
+        public static bool IsAvailable() { return Nvapi.available; }
 
         static Nvapi()
         {
@@ -138,7 +138,7 @@ namespace Nvidia.Interop
             AppDomain.CurrentDomain.ProcessExit += Nvapi.OnExit;
         }
 
-        protected static void GetDelegate<T>(uint id, out T newDelegate) where T : class
+        private static void GetDelegate<T>(uint id, out T newDelegate) where T : class
         {
             IntPtr ptr = QueryInterface(id);
             if (ptr != IntPtr.Zero)
@@ -151,7 +151,7 @@ namespace Nvidia.Interop
             }
         }
 
-        protected static string GetDllName()
+        private static string GetDllName()
         {
             if (IntPtr.Size == 4)
             {
@@ -163,7 +163,7 @@ namespace Nvidia.Interop
             }
         }
 
-        protected static void OnExit(object sender, EventArgs e)
+        private static void OnExit(object sender, EventArgs e)
         {
             available = false;
 
