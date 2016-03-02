@@ -33,6 +33,24 @@ namespace Nvidia.Interop
         public const uint NvSystemHWBCInvalidId = 0xffffffff;
         public const uint NvSystemMaxDisplays = NvMaxPhysicalGPUs * NvMaxHeads;
         public const uint NvSystemMaxHWBCs = 128;
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct DisplayHandle
+        {
+            private readonly IntPtr ptr;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct UnAttachedDisplayHandle
+        {
+            public readonly IntPtr ptr;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct PhysicalGpuHandle
+        {
+            private readonly IntPtr ptr;
+        }
         #endregion
 
         #region Function IDs

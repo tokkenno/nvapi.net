@@ -60,18 +60,18 @@ namespace Nvidia
             return displayHandlers;
         }
 
-        public static String GetDisplayName(Nvapi.DisplayHandle ptr)
+        public static Nvapi.DisplayHandle GetDisplayHandle(String name)
         {
-            String name;
-            Nvapi.GetAssociatedNvidiaDisplayHandle(out name, ref ptr);
-            return name;
+            Nvapi.DisplayHandle ptr = new Nvapi.DisplayHandle();
+            Nvapi.GetAssociatedNvidiaDisplayHandle(name, ref ptr);
+            return ptr;
         }
 
-        public static String GetUnAttachedDisplayName(Nvapi.UnAttachedDisplayHandle ptr)
+        public static Nvapi.UnAttachedDisplayHandle GetUnAttachedDisplayHandle(String name)
         {
-            String name;
-            Nvapi.GetAssociatedUnAttachedNvidiaDisplayHandle(out name, ref ptr);
-            return name;
+            Nvapi.UnAttachedDisplayHandle ptr = new Nvapi.UnAttachedDisplayHandle();
+            Nvapi.GetAssociatedUnAttachedNvidiaDisplayHandle(name, ref ptr);
+            return ptr;
         }
     }
 }

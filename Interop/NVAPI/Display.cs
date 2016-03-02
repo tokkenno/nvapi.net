@@ -9,26 +9,6 @@ namespace Nvidia.Interop
 {
     public static partial class Nvapi
     {
-        #region Defines
-        [StructLayout(LayoutKind.Sequential)]
-        public struct DisplayHandle
-        {
-            private readonly IntPtr ptr;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct UnAttachedDisplayHandle
-        {
-            private readonly IntPtr ptr;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct PhysicalGpuHandle
-        {
-            private readonly IntPtr ptr;
-        }
-        #endregion
-
         #region Function IDs
         private const uint NvId_EnumNvidiaDisplayHandle = 0x9ABDD40D;
         private const uint NvId_EnumNvidiaUnAttachedDisplayHandle = 0x20DE9260;
@@ -84,9 +64,10 @@ namespace Nvidia.Interop
         /// <param name="szDisplayName"></param>
         /// <param name="pNvDispHandle"></param>
         /// <returns></returns>
-        public static Status GetAssociatedNvidiaDisplayHandle(out string szDisplayName, ref DisplayHandle pNvDispHandle)
+        public static Status GetAssociatedNvidiaDisplayHandle(string szDisplayName, ref DisplayHandle pNvDispHandle)
         {
             StringBuilder builder = new StringBuilder((int)NvShortStringMax);
+            builder.Append(szDisplayName);
 
             Status status;
             if (GetAssociatedNvidiaDisplayHandleInternal != null) { status = GetAssociatedNvidiaDisplayHandleInternal(builder, ref pNvDispHandle); }
@@ -106,14 +87,17 @@ namespace Nvidia.Interop
         /// <param name="szDisplayName"></param>
         /// <param name="pNvUnAttachedDispHandle"></param>
         /// <returns></returns>
-        public static Status GetAssociatedUnAttachedNvidiaDisplayHandle(out string szDisplayName, ref UnAttachedDisplayHandle pNvUnAttachedDispHandle)
+        public static Status GetAssociatedUnAttachedNvidiaDisplayHandle(string szDisplayName, ref UnAttachedDisplayHandle pNvUnAttachedDispHandle)
         {
             StringBuilder builder = new StringBuilder((int)NvShortStringMax);
+            builder.Append(szDisplayName);
 
             Status status;
             if (GetAssociatedUnAttachedNvidiaDisplayHandleInternal != null) { status = GetAssociatedUnAttachedNvidiaDisplayHandleInternal(builder, ref pNvUnAttachedDispHandle); }
             else { status = Status.NVAPI_FUNCTION_NOT_FOUND; }
             szDisplayName = builder.ToString();
+
+            Console.WriteLine(pNvUnAttachedDispHandle.ptr);
 
             return status;
         }
